@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html lang="hi"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Bebas+Neue&amp;family=Poiret+One&amp;family=Noto+Sans+Devanagari:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-container-low": "#f5f3f3", "on-surface": "#1b1c1c", "tertiary-fixed": "#e3e2e2", "secondary-container": "#e3e2e2", "on-primary-fixed": "#1b1c1c", "secondary-fixed-dim": "#c7c6c6", "primary-fixed-dim": "#c7c6c6", "on-background": "#1b1c1c", "on-tertiary-fixed-variant": "#464747", "on-tertiary-container": "#fefcfc", "on-surface-variant": "#444748", "on-primary-fixed-variant": "#464747", "secondary": "#5e5e5e", "outline-variant": "#c4c7c7", "on-tertiary-fixed": "#1b1c1c", "secondary-fixed": "#e3e2e2", "on-secondary": "#ffffff", "surface-container-lowest": "#ffffff", "on-error-container": "#93000a", "on-secondary-fixed": "#1b1c1c", "on-primary": "#ffffff", "on-secondary-container": "#646464", "primary": "#5c5c5c", "surface-bright": "#fbf9f9", "primary-fixed": "#e3e2e2", "inverse-primary": "#c7c6c6", "on-error": "#ffffff", "on-tertiary": "#ffffff", "surface-container": "#efeded", "on-secondary-fixed-variant": "#464747", "inverse-on-surface": "#f2f0f0", "inverse-surface": "#303031", "background": "#fbf9f9", "error": "#ba1a1a", "tertiary-fixed-dim": "#c7c6c6", "on-primary-container": "#fefcfc", "tertiary": "#5c5c5c", "surface-container-high": "#e9e8e7", "surface-variant": "#e3e2e2", "surface-container-highest": "#e3e2e2", "surface-tint": "#5e5e5e", "error-container": "#ffdad6", "outline": "#747878", "tertiary-container": "#747474", "surface": "#fbf9f9", "primary-container": "#747474", "surface-dim": "#dbdad9" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-lg": "1.5rem", "space-md": "1rem", "gutter": "1.5rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "margin": "2rem", "space-xl": "2.5rem" }, fontFamily: { "headline-lg": ["Anton", "Noto Sans Devanagari", "sans-serif"], "body-md": ["Noto Sans Devanagari", "Poiret One", "sans-serif"], "label-md": ["Noto Sans Devanagari", "Bebas Neue", "sans-serif"] }, fontSize: { "headline-lg": ["3rem", { "lineHeight": "1.1", "fontWeight": "400" }], "body-md": ["0.95rem", { "lineHeight": "1.5", "fontWeight": "400" }], "label-md": ["0.85rem", { "lineHeight": "1.2", "fontWeight": "600" }] } } } }</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs"><button aria-label="वापस जाएं" class="w-11 h-11 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors text-on-surface" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><h1 class="font-label-md text-label-md uppercase tracking-wider text-on-surface truncate">फसल निदान एवं मौसम</h1></div><div class="flex items-center gap-space-xs flex-shrink-0"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VXpN0wGlvPk5RlMSZ-j1snWOEEVixzOnyx4vVQwh8A6Dn0s6rwkCGeMKeniMLhPRhemcen6KNHGobQBgyeIMZE1WnWoLMN1-mHTKS1BxGbK_xqLaRaAInm4RnnOhFM70dOIHpSMzMkOs0yvDpzQA0S3CmGYfZB5hu7FEfFCWgiVPZRC0cPBvYc0F5JvaJDnQsFO07QDSIejHzjIaW-9a5uQvgOTMRQe3nUdsag4y1OeMNPDTy3Iv1j8NFQjCP2iryQ9QXj1O9q"/></div></div></header><main class="flex flex-col relative w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="flex flex-col gap-space-lg px-gutter pb-margin">
+<!-- Top Action / Context Row -->
+<div class="flex items-center justify-between pt-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">खेत ज़ोन 04 · उत्तरी घाटी</span>
+<div class="flex items-center gap-space-xs mt-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface leading-none">24°C</span>
+<span class="font-body-md text-body-md text-on-surface-variant self-end pb-1 font-medium">हल्के बादल</span>
+</div>
+</div>
+<button aria-label="खेत का स्थान बदलें" class="flex items-center gap-space-xs bg-surface-container-high hover:bg-surface-variant active:scale-95 transition-all text-on-surface px-space-md py-space-sm rounded-full shadow-sm" id="location-toggle">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">खेत 2B</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">unfold_more</span>
+</button>
+</div>
+<!-- Meteorological Field Hero Card -->
+<div class="relative w-full rounded-xl overflow-hidden shadow-sm bg-surface-container-low">
+<div class="bg-cover bg-center w-full h-44 relative" data-alt="Monochromatic high-contrast architectural photograph of an expansive agricultural farm with mist rolling over neat crop rows under a dramatic overcast sky. Stylized in minimalist deep grayscale tones, editorial and serene." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA3cEjJ4qbhe6_AXX9OWrHyIT8hiHvEXAUhYxworPov9eaL93woy37VnuZTRyH6Hzze-zsjj7ljxB8c1-1x2CenQoV73mZIH_oUWWvf0E9sS1QwzRZV3a3cEQcnR-diJZ4ThklGDxo9_iSqKUt49r6JDPKOXbK1bsva78W_ggq1dml-qqDMlaO5d5SXywSFr2xMBxnB6SRR05dMdUqwAZUDQkCzJFEqR-j0DsIIJq-OI-TIQjSUc4rJ')">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/60 to-transparent"></div>
+<div class="absolute top-space-md left-space-md bg-surface-container-lowest/90 backdrop-blur-md px-space-sm py-space-xs rounded-full flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface">रडार सक्रिय · रीयल-टाइम डेटा</span>
+</div>
+</div>
+<div class="p-space-md -mt-10 relative z-10 bg-surface-container-lowest mx-space-sm mb-space-sm rounded-lg shadow-sm">
+<div class="grid grid-cols-3 gap-space-sm text-center">
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-secondary text-[20px]">air</span>
+<span class="font-label-md text-label-md uppercase text-on-surface-variant mt-1">हवा की गति</span>
+<span class="font-headline-lg text-label-md text-on-surface mt-0.5">28 किमी/घंटा</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-secondary text-[20px]">water_drop</span>
+<span class="font-label-md text-label-md uppercase text-on-surface-variant mt-1">नमी</span>
+<span class="font-headline-lg text-label-md text-on-surface mt-0.5">72%</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-secondary text-[20px]">wb_twilight</span>
+<span class="font-label-md text-label-md uppercase text-on-surface-variant mt-1">धूप का समय</span>
+<span class="font-headline-lg text-label-md text-on-surface mt-0.5">4.2 घंटे</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 1: Hourly Timeline -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<h2 class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">घंटेवार बारिश और जलभराव का अनुमान</h2>
+<span class="font-body-md text-label-md text-secondary">अगले 24 घंटे</span>
+</div>
+<div class="flex gap-space-sm overflow-x-auto pb-space-sm -mx-gutter px-gutter no-scrollbar snap-x">
+<!-- 12 PM -->
+<div class="flex-shrink-0 w-24 bg-surface-container-low rounded-lg p-space-sm flex flex-col items-center gap-space-xs snap-start shadow-sm text-center">
+<span class="font-label-md text-label-md uppercase text-on-surface-variant">दोपहर 12</span>
+<span class="material-symbols-outlined text-[26px] text-primary" style="font-variation-settings: 'FILL' 1;">partly_cloudy_day</span>
+<span class="font-headline-lg text-label-md text-on-surface">24°C</span>
+<div class="w-full bg-surface-container h-12 rounded relative overflow-hidden flex flex-col justify-end p-0.5">
+<div class="w-full bg-secondary-fixed-dim rounded-sm transition-all duration-500" style="height: 10%;"></div>
+<span class="absolute inset-0 flex items-center justify-center font-label-md text-[10px] text-on-surface">10%</span>
+</div>
+</div>
+<!-- 3 PM -->
+<div class="flex-shrink-0 w-24 bg-surface-container-low rounded-lg p-space-sm flex flex-col items-center gap-space-xs snap-start shadow-sm text-center">
+<span class="font-label-md text-label-md uppercase text-on-surface-variant">दोपहर 3</span>
+<span class="material-symbols-outlined text-[26px] text-primary" style="font-variation-settings: 'FILL' 1;">sunny</span>
+<span class="font-headline-lg text-label-md text-on-surface">26°C</span>
+<div class="w-full bg-surface-container h-12 rounded relative overflow-hidden flex flex-col justify-end p-0.5">
+<div class="w-full bg-secondary-fixed-dim rounded-sm transition-all duration-500" style="height: 20%;"></div>
+<span class="absolute inset-0 flex items-center justify-center font-label-md text-[10px] text-on-surface">20%</span>
+</div>
+</div>
+<!-- 6 PM -->
+<div class="flex-shrink-0 w-24 bg-surface-container-low rounded-lg p-space-sm flex flex-col items-center gap-space-xs snap-start shadow-sm text-center">
+<span class="font-label-md text-label-md uppercase text-on-surface-variant">शाम 6</span>
+<span class="material-symbols-outlined text-[26px] text-primary">cloud</span>
+<span class="font-headline-lg text-label-md text-on-surface">21°C</span>
+<div class="w-full bg-surface-container h-12 rounded relative overflow-hidden flex flex-col justify-end p-0.5">
+<div class="w-full bg-secondary rounded-sm transition-all duration-500" style="height: 45%;"></div>
+<span class="absolute inset-0 flex items-center justify-center font-label-md text-[10px] text-on-primary">45%</span>
+</div>
+</div>
+<!-- 9 PM -->
+<div class="flex-shrink-0 w-24 bg-surface-container-high rounded-lg p-space-sm flex flex-col items-center gap-space-xs snap-start shadow-sm text-center">
+<span class="font-label-md text-label-md uppercase text-on-surface-variant">रात 9</span>
+<span class="material-symbols-outlined text-[26px] text-on-surface">thunderstorm</span>
+<span class="font-headline-lg text-label-md text-on-surface">18°C</span>
+<div class="w-full bg-surface-container h-12 rounded relative overflow-hidden flex flex-col justify-end p-0.5">
+<div class="w-full bg-primary rounded-sm transition-all duration-500" style="height: 70%;"></div>
+<span class="absolute inset-0 flex items-center justify-center font-label-md text-[10px] text-on-primary">70%</span>
+</div>
+</div>
+<!-- 12 AM -->
+<div class="flex-shrink-0 w-24 bg-primary text-on-primary rounded-lg p-space-sm flex flex-col items-center gap-space-xs snap-start shadow-sm text-center">
+<span class="font-label-md text-label-md uppercase text-primary-fixed-dim">रात 12</span>
+<span class="material-symbols-outlined text-[26px] text-on-primary" style="font-variation-settings: 'FILL' 1;">rainy</span>
+<span class="font-headline-lg text-label-md text-on-primary">16°C</span>
+<div class="w-full bg-primary-container h-12 rounded relative overflow-hidden flex flex-col justify-end p-0.5">
+<div class="w-full bg-surface-bright rounded-sm transition-all duration-500" style="height: 85%;"></div>
+<span class="absolute inset-0 flex items-center justify-center font-label-md text-[10px] text-on-surface">85%</span>
+</div>
+</div>
+<!-- 6 AM -->
+<div class="flex-shrink-0 w-24 bg-surface-container-low rounded-lg p-space-sm flex flex-col items-center gap-space-xs snap-start shadow-sm text-center">
+<span class="font-label-md text-label-md uppercase text-on-surface-variant">सुबह 6</span>
+<span class="material-symbols-outlined text-[26px] text-secondary">weather_mix</span>
+<span class="font-headline-lg text-label-md text-on-surface">15°C</span>
+<div class="w-full bg-surface-container h-12 rounded relative overflow-hidden flex flex-col justify-end p-0.5">
+<div class="w-full bg-secondary rounded-sm transition-all duration-500" style="height: 60%;"></div>
+<span class="absolute inset-0 flex items-center justify-center font-label-md text-[10px] text-on-primary">60%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 2: Soil & Evapotranspiration Intelligence -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<h2 class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">मिट्टी की नमी व वाष्पीकरण</h2>
+<span class="material-symbols-outlined text-[18px] text-secondary">info</span>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<!-- Soil Moisture Bento Item -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase text-on-surface-variant">मिट्टी की नमी</span>
+<span class="material-symbols-outlined text-primary text-[20px]">grass</span>
+</div>
+<div class="my-space-sm flex items-center justify-center relative">
+<!-- Inline SVG Gauge -->
+<svg class="w-24 h-24 transform -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="34, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="font-headline-lg text-label-md text-on-surface">34%</span>
+<span class="font-body-md text-[10px] text-secondary">VWC</span>
+</div>
+</div>
+<div class="bg-surface-container-high py-space-xs px-space-sm rounded text-center">
+<span class="font-label-md text-label-md text-on-surface uppercase tracking-wide">स्थिति: उत्तम</span>
+</div>
+</div>
+<!-- Evaporation & Wind Bento Item -->
+<div class="flex flex-col gap-space-sm">
+<div class="bg-surface-container-low p-space-md rounded-xl flex-1 flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase text-on-surface-variant">वाष्पीकरण</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">filter_drama</span>
+</div>
+<div class="flex items-baseline gap-space-xs mt-space-xs">
+<span class="font-headline-lg text-label-md text-on-surface text-[24px]">2.8</span>
+<span class="font-body-md text-label-md text-on-surface-variant">मिमी / दिन</span>
+</div>
+<span class="font-body-md text-[11px] text-secondary mt-1">तनाव सीमा से सुरक्षित</span>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-xl flex-1 flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase text-on-surface-variant">अधिकतम हवा</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">storm</span>
+</div>
+<div class="flex items-baseline gap-space-xs mt-space-xs">
+<span class="font-headline-lg text-label-md text-on-surface text-[24px]">28</span>
+<span class="font-body-md text-label-md text-on-surface-variant">किमी/घंटा · शाम 4</span>
+</div>
+<span class="font-body-md text-[11px] text-secondary mt-1">छिड़काव में बहाव का ख़तरा</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 3: 7-Day Agricultural Forecast Cards -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<h2 class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">7-दिन की कृषि सलाह</h2>
+<span class="font-body-md text-label-md text-secondary">साप्ताहिक दृष्टिकोण</span>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Tuesday -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-sm shadow-sm transition hover:bg-surface-container">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">thunderstorm</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md uppercase text-on-surface">मंगलवार</span>
+<span class="font-body-md text-[12px] text-on-surface-variant">भारी बारिश · 18 मिमी</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-lg text-label-md text-on-surface">25°</span>
+<span class="font-body-md text-label-md text-on-surface-variant">/ 14°</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest px-space-md py-space-xs rounded-lg">
+<span class="font-body-md text-[12px] text-on-surface-variant">मिट्टी में अधिक जलभराव का जोखिम</span>
+<span class="bg-error-container text-on-error-container font-label-md text-label-md uppercase px-space-sm py-0.5 rounded">सिंचाई: न करें</span>
+</div>
+</div>
+<!-- Wednesday -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-sm shadow-sm transition hover:bg-surface-container">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">cloudy</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md uppercase text-on-surface">बुधवार</span>
+<span class="font-body-md text-[12px] text-on-surface-variant">घने बादल व गीली ज़मीन</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-lg text-label-md text-on-surface">23°</span>
+<span class="font-body-md text-label-md text-on-surface-variant">/ 13°</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest px-space-md py-space-xs rounded-lg">
+<span class="font-body-md text-[12px] text-on-surface-variant">कीटनाशक/दवा बहने का ख़तरा</span>
+<span class="bg-error-container text-on-error-container font-label-md text-label-md uppercase px-space-sm py-0.5 rounded">छिड़काव: न करें</span>
+</div>
+</div>
+<!-- Thursday -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-sm shadow-sm transition hover:bg-surface-container">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">wb_sunny</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md uppercase text-on-surface">गुरुवार</span>
+<span class="font-body-md text-[12px] text-on-surface-variant">खिली धूप व साफ़ मौसम</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-lg text-label-md text-on-surface">24°</span>
+<span class="font-body-md text-label-md text-on-surface-variant">/ 12°</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest px-space-md py-space-xs rounded-lg">
+<span class="font-body-md text-[12px] text-on-surface-variant">भूमिगत नमी में कमी का अनुमान</span>
+<span class="bg-secondary-container text-on-secondary-container font-label-md text-label-md uppercase px-space-sm py-0.5 rounded">सिंचाई: उपयुक्त</span>
+</div>
+</div>
+<!-- Friday -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-sm shadow-sm transition hover:bg-surface-container">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">air</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md uppercase text-on-surface">शुक्रवार</span>
+<span class="font-body-md text-[12px] text-on-surface-variant">हल्की हवा · सामान्य नमी</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-lg text-label-md text-on-surface">26°</span>
+<span class="font-body-md text-label-md text-on-surface-variant">/ 13°</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest px-space-md py-space-xs rounded-lg">
+<span class="font-body-md text-[12px] text-on-surface-variant">ट्रैक्टर व जुताई के लिए अनुकूल भूमि</span>
+<span class="bg-primary text-on-primary font-label-md text-label-md uppercase px-space-sm py-0.5 rounded">खेत कार्य: बहुत अच्छा</span>
+</div>
+</div>
+<!-- Saturday -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-sm shadow-sm transition hover:bg-surface-container">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">sunny</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md uppercase text-on-surface">शनिवार</span>
+<span class="font-body-md text-[12px] text-on-surface-variant">साफ़ आसमान · पूरी धूप</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-lg text-label-md text-on-surface">27°</span>
+<span class="font-body-md text-label-md text-on-surface-variant">/ 14°</span>
+</div>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest px-space-md py-space-xs rounded-lg">
+<span class="font-body-md text-[12px] text-on-surface-variant">फसल विकास सामान्य स्थिति में</span>
+<span class="bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md uppercase px-space-sm py-0.5 rounded">निगरानी: सामान्य</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Meteorological Narrative Note -->
+<div class="bg-surface-container p-space-md rounded-xl flex items-start gap-space-sm shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[24px] mt-0.5">tips_and_updates</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md uppercase text-on-surface">कृषि सलाहकार सारांश</span>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 leading-relaxed">
+          मंगलवार शाम से बुधवार तक की बारिश गुरुवार तक पर्याप्त नमी देगी। मंगलवार रात 9 बजे से पहले यूरिया/खाद का छिड़काव रोकें ताकि पोषक तत्व बह न जाएं।
+        </p>
+</div>
+</div>
+<!-- Primary CTA Actions -->
+<div class="flex flex-col sm:flex-row gap-space-sm pt-space-xs">
+<button class="flex-1 bg-primary text-on-primary hover:bg-on-surface active:scale-[0.98] transition-all py-space-md px-space-lg rounded-xl flex items-center justify-center gap-space-xs shadow-md" id="alert-btn">
+<span class="material-symbols-outlined text-[20px]">notifications_active</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">बारिश अलर्ट सेट करें</span>
+</button>
+<button class="flex-1 bg-surface-container-high text-on-surface hover:bg-surface-variant active:scale-[0.98] transition-all py-space-md px-space-lg rounded-xl flex items-center justify-center gap-space-xs shadow-sm" id="export-btn">
+<span class="material-symbols-outlined text-[20px]">file_download</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">मौसम रिपोर्ट डाउनलोड करें</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+  // Simple micro-interactions for alerts and export toasts
+  const alertBtn = document.getElementById('alert-btn');
+  const exportBtn = document.getElementById('export-btn');
+  const locationToggle = document.getElementById('location-toggle');
+
+  if (alertBtn) {
+    alertBtn.addEventListener('click', function() {
+      const originalText = this.innerHTML;
+      this.classList.replace('bg-primary', 'bg-surface-container-highest');
+      this.innerHTML = '<span class="material-symbols-outlined text-[20px] text-on-surface">check</span><span class="font-label-md text-label-md uppercase text-on-surface tracking-wider">अलर्ट सक्रिय (70%+ बारिश)</span>';
+      setTimeout(() => {
+        this.innerHTML = originalText;
+        this.classList.replace('bg-surface-container-highest', 'bg-primary');
+      }, 2500);
+    });
+  }
+
+  if (exportBtn) {
+    exportBtn.addEventListener('click', function() {
+      const originalText = this.innerHTML;
+      this.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">refresh</span><span class="font-label-md text-label-md uppercase tracking-wider">PDF तैयार हो रही है...</span>';
+      setTimeout(() => {
+        this.innerHTML = '<span class="material-symbols-outlined text-[20px]">done_all</span><span class="font-label-md text-label-md uppercase tracking-wider">रिपोर्ट डाउनलोड सफल</span>';
+        setTimeout(() => {
+          this.innerHTML = originalText;
+        }, 2000);
+      }, 1200);
+    });
+  }
+
+  if (locationToggle) {
+    const locations = ['खेत 2B', 'प्लॉट 01A', 'ग्रीनहाउस 4', 'दक्षिणी बाग'];
+    let idx = 0;
+    locationToggle.addEventListener('click', function() {
+      idx = (idx + 1) % locations.length;
+      const label = this.querySelector('span:nth-child(2)');
+      if (label) label.textContent = locations[idx];
+    });
+  }
+</script></main></body></html>

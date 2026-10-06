@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Bebas+Neue&amp;family=Poiret+One&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-container-low": "#f5f3f3", "on-surface": "#1b1c1c", "tertiary-fixed": "#e3e2e2", "secondary-container": "#e3e2e2", "on-primary-fixed": "#1b1c1c", "secondary-fixed-dim": "#c7c6c6", "primary-fixed-dim": "#c7c6c6", "on-background": "#1b1c1c", "on-tertiary-fixed-variant": "#464747", "on-tertiary-container": "#fefcfc", "on-surface-variant": "#444748", "on-primary-fixed-variant": "#464747", "secondary": "#5e5e5e", "outline-variant": "#c4c7c7", "on-tertiary-fixed": "#1b1c1c", "secondary-fixed": "#e3e2e2", "on-secondary": "#ffffff", "surface-container-lowest": "#ffffff", "on-error-container": "#93000a", "on-secondary-fixed": "#1b1c1c", "on-primary": "#ffffff", "on-secondary-container": "#646464", "primary": "#5c5c5c", "surface-bright": "#fbf9f9", "primary-fixed": "#e3e2e2", "inverse-primary": "#c7c6c6", "on-error": "#ffffff", "on-tertiary": "#ffffff", "surface-container": "#efeded", "on-secondary-fixed-variant": "#464747", "inverse-on-surface": "#f2f0f0", "inverse-surface": "#303031", "background": "#fbf9f9", "error": "#ba1a1a", "tertiary-fixed-dim": "#c7c6c6", "on-primary-container": "#fefcfc", "tertiary": "#5c5c5c", "surface-container-high": "#e9e8e7", "surface-variant": "#e3e2e2", "surface-container-highest": "#e3e2e2", "surface-tint": "#5e5e5e", "error-container": "#ffdad6", "outline": "#747878", "tertiary-container": "#747474", "surface": "#fbf9f9", "primary-container": "#747474", "surface-dim": "#dbdad9" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-lg": "1.5rem", "space-md": "1rem", "gutter": "1.5rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "margin": "2rem", "space-xl": "2.5rem" }, fontFamily: { "headline-lg": ["Anton"], "body-md": ["Poiret One"], "label-md": ["Bebas Neue"] }, fontSize: { "headline-lg": ["3rem", { "lineHeight": "1.1", "fontWeight": "400" }], "body-md": ["1rem", { "lineHeight": "1.5", "fontWeight": "400" }], "label-md": ["0.875rem", { "lineHeight": "1.2", "fontWeight": "400" }] } } } }</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs"><button aria-label="Go Back" class="w-11 h-11 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors text-on-surface" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><h1 class="font-label-md text-label-md uppercase tracking-wider text-on-surface truncate">Ai Crop Diagnosis</h1></div><div class="flex items-center gap-space-xs flex-shrink-0"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VXpN0wGlvPk5RlMSZ-j1snWOEEVixzOnyx4vVQwh8A6Dn0s6rwkCGeMKeniMLhPRhemcen6KNHGobQBgyeIMZE1WnWoLMN1-mHTKS1BxGbK_xqLaRaAInm4RnnOhFM70dOIHpSMzMkOs0yvDpzQA0S3CmGYfZB5hu7FEfFCWgiVPZRC0cPBvYc0F5JvaJDnQsFO07QDSIejHzjIaW-9a5uQvgOTMRQe3nUdsag4y1OeMNPDTy3Iv1j8NFQjCP2iryQ9QXj1O9q"/></div></div></header><main class="flex flex-col relative w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full pb-safe">
+<!-- Sub-Header / Field Quick Meta Banner -->
+<div class="px-gutter pt-space-md pb-space-sm flex items-center justify-between">
+<div class="min-w-0">
+<span class="font-label-md text-label-md tracking-widest uppercase text-secondary">CROP MANAGEMENT</span>
+<h2 class="font-headline-lg text-headline-lg tracking-tight text-on-surface uppercase truncate">WHEAT — PBW-550</h2>
+</div>
+<button aria-label="Edit crop details" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+<!-- Field Identification Card with Visual Context -->
+<div class="px-gutter mb-space-md">
+<div class="relative overflow-hidden rounded-xl bg-surface-container-high text-on-surface p-space-md">
+<div class="flex flex-col gap-space-xs relative z-10">
+<div class="flex items-center gap-space-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span class="font-label-md text-label-md tracking-wider uppercase">NORTH CANAL FIELD</span>
+</div>
+<div class="flex flex-wrap items-center gap-x-space-md gap-y-space-xs font-body-md text-body-md text-on-surface">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-secondary">straighten</span>
+<span>4.0 Acres</span>
+</div>
+<span class="text-outline-variant">•</span>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-secondary">calendar_today</span>
+<span>Sown Nov 12, 2024</span>
+</div>
+</div>
+</div>
+<div class="absolute -right-4 -bottom-6 opacity-10 pointer-events-none select-none">
+<span class="material-symbols-outlined text-[100px] text-on-surface">grass</span>
+</div>
+</div>
+</div>
+<!-- Segmented Tabs -->
+<div class="px-gutter mb-space-md">
+<div class="grid grid-cols-4 gap-1 p-1 bg-surface-container rounded-lg" id="cropTabs">
+<button class="tab-btn active py-2 rounded font-label-md text-label-md tracking-wider uppercase bg-surface text-on-surface shadow-sm transition-all" data-tab="overview">Overview</button>
+<button class="tab-btn py-2 rounded font-label-md text-label-md tracking-wider uppercase text-secondary hover:text-on-surface transition-all" data-tab="health">Health</button>
+<button class="tab-btn py-2 rounded font-label-md text-label-md tracking-wider uppercase text-secondary hover:text-on-surface transition-all" data-tab="advisory">Advisory</button>
+<button class="tab-btn py-2 rounded font-label-md text-label-md tracking-wider uppercase text-secondary hover:text-on-surface transition-all" data-tab="timeline">Timeline</button>
+</div>
+</div>
+<!-- Main Content Tab Area -->
+<div class="flex flex-col gap-space-md px-gutter">
+<!-- Current Growth Stage Visual Card -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-label-md text-label-md tracking-wider uppercase text-secondary">Current Stage</span>
+<h3 class="font-headline-lg text-headline-lg tracking-tight text-on-surface uppercase leading-none mt-1">TILLERING PHASE</h3>
+</div>
+<div class="bg-surface-container-highest px-3 py-1.5 rounded-full flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-on-surface animate-pulse"></span>
+<span class="font-label-md text-label-md tracking-widest text-on-surface uppercase">DAY 42</span>
+</div>
+</div>
+<!-- Growth Horizontal Stepper Track -->
+<div class="flex flex-col gap-space-xs mt-space-xs">
+<div class="flex items-center justify-between text-secondary font-label-md text-label-md uppercase tracking-wider mb-1">
+<span>PROGRESSION CYCLE</span>
+<span class="text-on-surface">STAGE 3 OF 6</span>
+</div>
+<div class="overflow-x-auto pb-2 -mx-2 px-2">
+<div class="flex items-center min-w-[520px] gap-2">
+<!-- Stage 1 -->
+<div class="flex-1 flex flex-col gap-1.5 items-center text-center">
+<div class="w-full h-1.5 rounded-full bg-on-surface"></div>
+<div class="flex items-center gap-1 text-on-surface">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span class="font-label-md text-label-md uppercase">Sowing</span>
+</div>
+</div>
+<!-- Stage 2 -->
+<div class="flex-1 flex flex-col gap-1.5 items-center text-center">
+<div class="w-full h-1.5 rounded-full bg-on-surface"></div>
+<div class="flex items-center gap-1 text-on-surface">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span class="font-label-md text-label-md uppercase">Crown Root</span>
+</div>
+</div>
+<!-- Stage 3 (Current) -->
+<div class="flex-1 flex flex-col gap-1.5 items-center text-center">
+<div class="w-full h-1.5 rounded-full bg-primary relative">
+<div class="absolute -top-1 left-1/2 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-on-surface flex items-center justify-center">
+<div class="w-1.5 h-1.5 rounded-full bg-surface"></div>
+</div>
+</div>
+<span class="font-label-md text-label-md uppercase text-on-surface font-semibold">Tillering (Active)</span>
+</div>
+<!-- Stage 4 -->
+<div class="flex-1 flex flex-col gap-1.5 items-center text-center">
+<div class="w-full h-1.5 rounded-full bg-surface-container-highest"></div>
+<span class="font-label-md text-label-md uppercase text-secondary">Jointing</span>
+</div>
+<!-- Stage 5 -->
+<div class="flex-1 flex flex-col gap-1.5 items-center text-center">
+<div class="w-full h-1.5 rounded-full bg-surface-container-highest"></div>
+<span class="font-label-md text-label-md uppercase text-secondary">Heading</span>
+</div>
+<!-- Stage 6 -->
+<div class="flex-1 flex flex-col gap-1.5 items-center text-center">
+<div class="w-full h-1.5 rounded-full bg-surface-container-highest"></div>
+<span class="font-label-md text-label-md uppercase text-secondary">Harvest</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Essential Crop Metrics Bento -->
+<div class="grid grid-cols-2 gap-space-sm">
+<!-- Soil Moisture -->
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md tracking-wider uppercase text-secondary">SOIL MOISTURE</span>
+<span class="material-symbols-outlined text-[20px] text-on-surface">water_drop</span>
+</div>
+<div class="my-space-sm">
+<div class="font-headline-lg text-headline-lg tracking-tight text-on-surface leading-none">32%</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Sufficient for vegetative phase</p>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 64%;"></div>
+</div>
+</div>
+<!-- Expected Yield -->
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md tracking-wider uppercase text-secondary">EST. YIELD</span>
+<span class="material-symbols-outlined text-[20px] text-on-surface">analytics</span>
+</div>
+<div class="my-space-sm">
+<div class="font-headline-lg text-headline-lg tracking-tight text-on-surface leading-none">21–23</div>
+<span class="font-label-md text-label-md uppercase text-secondary">QUINTALS / ACRE</span>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Normal target range</p>
+</div>
+<div class="flex items-center gap-1 text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span class="tracking-wider uppercase">+4% vs last year</span>
+</div>
+</div>
+</div>
+<!-- Projected Harvest Window Card -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex items-center justify-between">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[24px]">event_upcoming</span>
+</div>
+<div>
+<span class="font-label-md text-label-md tracking-wider uppercase text-secondary">PROJECTED HARVEST DATE</span>
+<div class="font-headline-lg text-headline-lg text-on-surface tracking-tight leading-tight">MARCH 28, 2025</div>
+<span class="font-body-md text-body-md text-on-surface-variant">Est. 94 days remaining until physiological maturity</span>
+</div>
+</div>
+</div>
+<!-- Scan Crop Action Card -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container p-space-md flex items-center justify-between group cursor-pointer active:scale-[0.99] transition-transform">
+<div class="flex items-center gap-space-md min-w-0 pr-2">
+<div class="w-12 h-12 rounded-xl bg-on-surface text-surface flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[26px]">document_scanner</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-lg text-headline-lg text-on-surface tracking-tight leading-tight">SCAN CROP</span>
+<span class="bg-surface-container-highest text-on-surface px-1.5 py-0.5 rounded font-label-md text-label-md uppercase tracking-wider">AI DIAGNOSIS</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant truncate">Instant detection for yellow rust, aphids &amp; stem rot</p>
+</div>
+</div>
+<button aria-label="Open Camera Scan" class="w-10 h-10 rounded-full bg-surface text-on-surface flex items-center justify-center shadow-sm flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">photo_camera</span>
+</button>
+</div>
+<!-- AI Field Advisory Card -->
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-sm mb-space-lg">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-on-surface">psychology</span>
+<span class="font-label-md text-label-md tracking-widest uppercase text-on-surface">RECENT AI ADVISORY</span>
+</div>
+<span class="font-label-md text-label-md text-secondary tracking-wider uppercase">UPDATED 2H AGO</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+        Delay second irrigation until regional rain clears over North Canal. Apply 45kg zinc sulfate if distinct yellowing appears on lower leaf veins during tillering.
+      </p>
+<div class="flex items-center justify-between pt-space-xs">
+<button class="font-label-md text-label-md tracking-wider uppercase text-on-surface flex items-center gap-1 hover:underline">
+<span>Read Comprehensive Analysis</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Sticky Bottom Quick Actions Bar -->
+<div class="sticky bottom-0 w-full bg-surface/95 backdrop-blur-md px-gutter py-space-sm mt-auto shadow-md">
+<div class="flex flex-col gap-space-xs">
+<button class="w-full h-12 bg-on-surface text-surface rounded-lg font-label-md text-label-md tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-secondary transition-colors">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+<span>Ask AI About Wheat</span>
+</button>
+<button class="w-full h-11 bg-surface-container text-on-surface rounded-lg font-label-md text-label-md tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Log Farm Activity</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+  // Tab switching interaction
+  const tabs = document.querySelectorAll('#cropTabs .tab-btn');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => {
+        t.classList.remove('bg-surface', 'text-on-surface', 'shadow-sm');
+        t.classList.add('text-secondary');
+      });
+      tab.classList.remove('text-secondary');
+      tab.classList.add('bg-surface', 'text-on-surface', 'shadow-sm');
+    });
+  });
+</script></main></body></html>
