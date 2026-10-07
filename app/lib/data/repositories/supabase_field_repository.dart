@@ -42,6 +42,18 @@ class SupabaseFieldRepository implements FieldRepository {
   }
 
   @override
+  Future<Result<void>> deleteField(String fieldId) async {
+    if (backendMissing) return const Err(BackendFailure.notConfigured());
+    if (_uid == null) return const Err(BackendFailure.authRequired());
+    return switch (await guard(
+      () => _db.from('fields').delete().eq('id', fieldId),
+    )) {
+      Ok() => const Ok(null),
+      Err(:final failure) => Err<void>(failure),
+    };
+  }
+
+  @override
   Future<Result<List<FieldCrop>>> plantings(String fieldId) async {
     if (backendMissing) return const Err(BackendFailure.notConfigured());
     if (_uid == null) return const Err(BackendFailure.authRequired());

@@ -45,6 +45,7 @@ abstract class FarmerRepository {
 abstract class FieldRepository {
   Future<Result<List<Field>>> listFields();
   Future<Result<Field>> createField(Field draft);
+  Future<Result<void>> deleteField(String fieldId);
   Future<Result<List<FieldCrop>>> plantings(String fieldId);
 }
 
