@@ -28,6 +28,13 @@ class Settings(BaseSettings):
     # Later-phase provider keys (empty = provider disabled, honest 503).
     gemini_api_key: str = Field(default="", alias="GEMINI_API_KEY")
 
+    # Comma-separated admin allowlist for /api/v1/admin/* (server env only).
+    admin_emails: str = Field(default="", alias="ADMIN_EMAILS")
+
+    @property
+    def admin_email_set(self) -> set[str]:
+        return {e.strip().lower() for e in self.admin_emails.split(",") if e.strip()}
+
     api_host: str = Field(default="0.0.0.0", alias="API_HOST")
     api_port: int = Field(default=8000, alias="API_PORT")
     cors_origins: str = Field(
