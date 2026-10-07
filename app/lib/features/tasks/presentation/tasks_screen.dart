@@ -41,7 +41,7 @@ class TasksScreen extends StatelessWidget {
           AmPrimaryButton(
             label: l.tasksAdd,
             icon: Icons.add,
-            // TODO(Phase 7): create todo_tasks row.
+            // TODO(Phase 7): create tasks row.
             onPressed: () {},
           ),
         ],

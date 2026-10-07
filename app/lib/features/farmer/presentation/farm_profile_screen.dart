@@ -38,7 +38,7 @@ class FarmProfileScreen extends StatelessWidget {
           AmPrimaryButton(
             label: l.farmNext,
             icon: Icons.arrow_forward,
-            // TODO(Phase 5): save acres/type to farmer_profiles.
+            // TODO(Phase 5): save acres/type to profiles.
             onPressed: () => context.go(AppRoutes.addCrop),
           ),
           const SizedBox(height: AppSpacing.sm),

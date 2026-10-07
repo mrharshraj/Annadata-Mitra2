@@ -20,3 +20,8 @@ android/local.properties
 # Env
 .env
 .env.local
+
+# Secrets - never commit real credentials
+credentials.txt
+*.key
+*.pem

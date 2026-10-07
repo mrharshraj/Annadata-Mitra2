@@ -5,7 +5,7 @@ import '../models/task.dart';
 import 'repositories.dart';
 import 'supabase_helpers.dart';
 
-/// Owner-scoped task CRUD.
+/// Owner-scoped task CRUD over public.tasks.
 class SupabaseTaskRepository implements TaskRepository {
   SupabaseTaskRepository(this._db);
 
@@ -14,48 +14,48 @@ class SupabaseTaskRepository implements TaskRepository {
   String? get _uid => _db.auth.currentUser?.id;
 
   @override
-  Future<Result<List<TodoTask>>> listTasks() async {
+  Future<Result<List<FarmTask>>> listTasks() async {
     if (backendMissing) return const Err(BackendFailure.notConfigured());
     if (_uid == null) return const Err(BackendFailure.authRequired());
     return guard(() async {
       final rows = await _db
-          .from('todo_tasks')
+          .from('tasks')
           .select()
           .order('due_date', ascending: true, nullsFirst: true);
       return (rows as List)
           .cast<Map<String, dynamic>>()
-          .map(TodoTask.fromJson)
+          .map(FarmTask.fromJson)
           .toList();
     });
   }
 
   @override
-  Future<Result<TodoTask>> createTask(TodoTask draft) async {
+  Future<Result<FarmTask>> createTask(FarmTask draft) async {
     if (backendMissing) return const Err(BackendFailure.notConfigured());
     final uid = _uid;
     if (uid == null) return const Err(BackendFailure.authRequired());
     return guard(() async {
       final row = await _db
-          .from('todo_tasks')
-          .insert({...draft.toJson(), 'farmer_id': uid})
+          .from('tasks')
+          .insert({...draft.toJson(), 'profile_id': uid})
           .select()
           .single();
-      return TodoTask.fromJson((row as Map).cast<String, dynamic>());
+      return FarmTask.fromJson((row as Map).cast<String, dynamic>());
     });
   }
 
   @override
-  Future<Result<TodoTask>> setCompleted(TodoTask task, bool completed) async {
+  Future<Result<FarmTask>> setStatus(FarmTask task, String status) async {
     if (backendMissing) return const Err(BackendFailure.notConfigured());
     if (_uid == null) return const Err(BackendFailure.authRequired());
     return guard(() async {
       final row = await _db
-          .from('todo_tasks')
-          .update({'is_completed': completed})
+          .from('tasks')
+          .update({'status': status})
           .eq('id', task.id)
           .select()
           .single();
-      return TodoTask.fromJson((row as Map).cast<String, dynamic>());
+      return FarmTask.fromJson((row as Map).cast<String, dynamic>());
     });
   }
 }

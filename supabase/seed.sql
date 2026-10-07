@@ -1,8 +1,8 @@
 -- Phase 2 seed: deterministic reference data (safe to re-run).
--- Conventions: every insert is idempotent via ON CONFLICT DO NOTHING on the
--- unique constraints from 0001; FKs resolve through subselects, never
--- hardcoded UUIDs. Village coordinates are APPROXIMATE samples for
--- weather-mapping development, not survey data.
+-- Idempotent via ON CONFLICT DO NOTHING / NOT EXISTS guards; FKs resolve
+-- through subselects, never hardcoded UUIDs. Village coordinates are
+-- APPROXIMATE samples for weather-mapping development, not survey data.
+-- No farmer accounts, no production weather/AI rows are created here.
 
 -- States (starter set; extend with the same pattern) ----------------------------
 insert into public.states (name, code) values
@@ -16,7 +16,7 @@ insert into public.states (name, code) values
   ('Maharashtra', 'MH')
 on conflict (code) do nothing;
 
--- Bihar: all 38 districts (Census 2011 list) ------------------------------------
+-- Bihar: all 38 districts ----------------------------------------------------------
 insert into public.districts (state_id, name)
 select (select id from public.states where code = 'BR'), d
 from (values
@@ -54,7 +54,7 @@ select (select id from public.districts
 from (values ('Nilokheri'), ('Karnal')) as t(b)
 on conflict (district_id, name) do nothing;
 
--- Panchayats (sample names; marked sample in docs) ---------------------------------
+-- Panchayats (sample names) -----------------------------------------------------------------
 insert into public.panchayats (block_id, name)
 select (select id from public.blocks
          where name = 'Biharsharif'
@@ -121,24 +121,25 @@ where not exists (
 );
 
 -- Crop catalog -----------------------------------------------------------------------
-insert into public.crops (name, crop_type, season) values
-  ('Wheat', 'cereal', 'Rabi'),
-  ('Paddy', 'cereal', 'Kharif'),
-  ('Mustard', 'oilseed', 'Rabi'),
-  ('Potato', 'vegetable', 'Rabi'),
-  ('Maize', 'cereal', 'Kharif'),
-  ('Sugarcane', 'cash', 'Perennial'),
-  ('Barley', 'cereal', 'Rabi'),
-  ('Chickpea', 'pulse', 'Rabi'),
-  ('Cotton', 'cash', 'Kharif'),
-  ('Soybean', 'oilseed', 'Kharif')
+insert into public.crops (name, scientific_name, category, season, description) values
+  ('Wheat', 'Triticum aestivum', 'cereal', 'Rabi', 'Main winter cereal of the Indo-Gangetic plain.'),
+  ('Paddy', 'Oryza sativa', 'cereal', 'Kharif', 'Monsoon rice grown in flooded paddies.'),
+  ('Mustard', 'Brassica juncea', 'oilseed', 'Rabi', 'Winter oilseed; sensitive to aphids at flowering.'),
+  ('Potato', 'Solanum tuberosum', 'vegetable', 'Rabi', 'Winter tuber crop for fresh market and storage.'),
+  ('Maize', 'Zea mays', 'cereal', 'Kharif', 'Versatile monsoon cereal for grain and fodder.'),
+  ('Sugarcane', 'Saccharum officinarum', 'cash', 'Perennial', 'Long-duration cash crop for mill supply.'),
+  ('Barley', 'Hordeum vulgare', 'cereal', 'Rabi', 'Hardy winter cereal for marginal soils.'),
+  ('Chickpea', 'Cicer arietinum', 'pulse', 'Rabi', 'Winter pulse that fixes nitrogen.'),
+  ('Cotton', 'Gossypium hirsutum', 'cash', 'Kharif', 'Fibre cash crop of drier tracts.'),
+  ('Soybean', 'Glycine max', 'oilseed', 'Kharif', 'Monsoon oilseed and protein crop.')
 on conflict (name) do nothing;
 
 -- Starter agronomy notes ---------------------------------------------------------------
-insert into public.crop_advice (crop_id, title, advice_text)
+insert into public.crop_advice (crop_id, advice_type, title, content, severity)
 select (select id from public.crops where name = 'Wheat'),
-  'Postpone irrigation before forecast rain',
-  'If more than 10 mm rain is forecast in 24 hours, delay irrigation to avoid waterlogging during tillering.'
+  'irrigation', 'Postpone irrigation before forecast rain',
+  'If more than 10 mm rain is forecast in 24 hours, delay irrigation to avoid waterlogging during tillering.',
+  'watch'
 where exists (select 1 from public.crops where name = 'Wheat')
   and not exists (
     select 1 from public.crop_advice a
@@ -146,10 +147,11 @@ where exists (select 1 from public.crops where name = 'Wheat')
     where c.name = 'Wheat' and a.title = 'Postpone irrigation before forecast rain'
   );
 
-insert into public.crop_advice (crop_id, title, advice_text)
+insert into public.crop_advice (crop_id, advice_type, title, content, severity)
 select (select id from public.crops where name = 'Mustard'),
-  'Scout for aphids in humid spells',
-  'Check tender shoots and buds twice a week during flowering; humid weather favours aphid buildup.'
+  'pest', 'Scout for aphids in humid spells',
+  'Check tender shoots and buds twice a week during flowering; humid weather favours aphid buildup.',
+  'watch'
 where exists (select 1 from public.crops where name = 'Mustard')
   and not exists (
     select 1 from public.crop_advice a

@@ -4,7 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../config/supabase_config.dart';
 import '../errors/backend_failure.dart';
-import '../../data/models/farmer_profile.dart';
+import '../../data/models/profile.dart';
 import '../../data/repositories/repositories.dart';
 import '../../data/repositories/supabase_crop_repository.dart';
 import '../../data/repositories/supabase_farmer_repository.dart';
@@ -66,7 +66,7 @@ final taskRepositoryProvider = Provider<TaskRepository>(
 /// - unconfigured → BackendStateView (notConfigured)
 /// - signed out → auth gate
 /// - signed in, no row yet → onboarding creates it
-final profileProvider = FutureProvider<FarmerProfile?>((ref) async {
+final profileProvider = FutureProvider<Profile?>((ref) async {
   if (!SupabaseConfig.isConfigured) {
     throw const BackendFailure.notConfigured();
   }

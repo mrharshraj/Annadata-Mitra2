@@ -34,7 +34,7 @@ class SupabaseFieldRepository implements FieldRepository {
     return guard(() async {
       final row = await _db
           .from('fields')
-          .insert({...draft.toJson(), 'farmer_id': uid})
+          .insert({...draft.toJson(), 'profile_id': uid})
           .select()
           .single();
       return Field.fromJson((row as Map).cast<String, dynamic>());

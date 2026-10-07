@@ -33,7 +33,7 @@ class TaskDetailsScreen extends StatelessWidget {
           AmPrimaryButton(
             label: l.actionSave,
             icon: Icons.save,
-            // TODO(Phase 7): update todo_tasks.
+            // TODO(Phase 7): update tasks.
             onPressed: () {},
           ),
         ],

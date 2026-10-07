@@ -1,11 +1,11 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/errors/backend_failure.dart';
-import '../models/farmer_profile.dart';
+import '../models/profile.dart';
 import 'repositories.dart';
 import 'supabase_helpers.dart';
 
-/// Email-OTP auth (passwordless, farmer-friendly) + own profile row.
+/// Email/password + email-OTP auth and the farmer's own profile row.
 /// Session persistence is handled by supabase_flutter (secure storage).
 class SupabaseFarmerRepository implements FarmerRepository {
   SupabaseFarmerRepository(this._db);
@@ -19,6 +19,34 @@ class SupabaseFarmerRepository implements FarmerRepository {
   @override
   Stream<AuthState> authChanges() =>
       backendMissing ? const Stream.empty() : _db.auth.onAuthStateChange;
+
+  @override
+  Future<Result<void>> signUpWithPassword({
+    required String email,
+    required String password,
+  }) async {
+    if (backendMissing) return const Err(BackendFailure.notConfigured());
+    return switch (await guard(
+      () => _db.auth.signUp(email: email, password: password),
+    )) {
+      Ok() => const Ok(null),
+      Err(:final failure) => Err<void>(failure),
+    };
+  }
+
+  @override
+  Future<Result<void>> signInWithPassword({
+    required String email,
+    required String password,
+  }) async {
+    if (backendMissing) return const Err(BackendFailure.notConfigured());
+    return switch (await guard(
+      () => _db.auth.signInWithPassword(email: email, password: password),
+    )) {
+      Ok() => const Ok(null),
+      Err(:final failure) => Err<void>(failure),
+    };
+  }
 
   @override
   Future<Result<void>> requestEmailOtp(String email) async {
@@ -44,33 +72,29 @@ class SupabaseFarmerRepository implements FarmerRepository {
   }
 
   @override
-  Future<Result<FarmerProfile?>> profile() async {
+  Future<Result<Profile?>> profile() async {
     if (backendMissing) return const Err(BackendFailure.notConfigured());
     final uid = _db.auth.currentUser?.id;
     if (uid == null) return const Err(BackendFailure.authRequired());
     return guard(() async {
-      final row = await _db
-          .from('farmer_profiles')
-          .select()
-          .eq('id', uid)
-          .maybeSingle();
+      final row = await _db.from('profiles').select().eq('id', uid).maybeSingle();
       if (row == null) return null;
-      return FarmerProfile.fromJson((row as Map).cast<String, dynamic>());
+      return Profile.fromJson((row as Map).cast<String, dynamic>());
     });
   }
 
   @override
-  Future<Result<FarmerProfile>> upsertProfile(FarmerProfile draft) async {
+  Future<Result<Profile>> upsertProfile(Profile draft) async {
     if (backendMissing) return const Err(BackendFailure.notConfigured());
     final uid = _db.auth.currentUser?.id;
     if (uid == null) return const Err(BackendFailure.authRequired());
     return guard(() async {
       final row = await _db
-          .from('farmer_profiles')
+          .from('profiles')
           .upsert({...draft.toJson(), 'id': uid})
           .select()
           .single();
-      return FarmerProfile.fromJson((row as Map).cast<String, dynamic>());
+      return Profile.fromJson((row as Map).cast<String, dynamic>());
     });
   }
 

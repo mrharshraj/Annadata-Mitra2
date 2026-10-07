@@ -5,9 +5,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/errors/backend_failure.dart';
 import '../models/crop.dart';
-import '../models/farmer_profile.dart';
 import '../models/field.dart';
 import '../models/location.dart';
+import '../models/profile.dart';
 import '../models/task.dart';
 
 /// Reference hierarchy State → … → Village (authenticated read-only).
@@ -19,17 +19,25 @@ abstract class LocationRepository {
   Future<Result<List<Village>>> villages(String panchayatId);
 }
 
-/// Supabase Auth + own farmer profile.
+/// Supabase Auth (email/password + email OTP) + own profile row.
 abstract class FarmerRepository {
   Session? currentSession();
   Stream<AuthState> authChanges();
+  Future<Result<void>> signUpWithPassword({
+    required String email,
+    required String password,
+  });
+  Future<Result<void>> signInWithPassword({
+    required String email,
+    required String password,
+  });
   Future<Result<void>> requestEmailOtp(String email);
   Future<Result<void>> verifyEmailOtp({
     required String email,
     required String otp,
   });
-  Future<Result<FarmerProfile?>> profile();
-  Future<Result<FarmerProfile>> upsertProfile(FarmerProfile draft);
+  Future<Result<Profile?>> profile();
+  Future<Result<Profile>> upsertProfile(Profile draft);
   Future<Result<void>> signOut();
 }
 
@@ -48,7 +56,7 @@ abstract class CropRepository {
 
 /// Own tasks.
 abstract class TaskRepository {
-  Future<Result<List<TodoTask>>> listTasks();
-  Future<Result<TodoTask>> createTask(TodoTask draft);
-  Future<Result<TodoTask>> setCompleted(TodoTask task, bool completed);
+  Future<Result<List<FarmTask>>> listTasks();
+  Future<Result<FarmTask>> createTask(FarmTask draft);
+  Future<Result<FarmTask>> setStatus(FarmTask task, String status);
 }
