@@ -21,6 +21,16 @@ class ProfileScreen extends ConsumerWidget {
     final l = AppLocalizations.of(context);
     final locale = ref.watch(localeProvider);
     final isHindi = locale.languageCode == 'hi';
+    // Live profile name when a backend is configured; prototype name otherwise.
+    final liveName = !SupabaseConfig.isConfigured
+        ? null
+        : switch (ref.watch(profileProvider)) {
+            AsyncData(:final value) => value?.fullName,
+            _ => null,
+          };
+    final displayName = (liveName == null || liveName.isEmpty)
+        ? 'RAMESH PATEL'
+        : liveName.toUpperCase();
 
     return AmScaffold(
       title: l.profileTitle.toUpperCase(),
@@ -41,7 +51,7 @@ class ProfileScreen extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('RAMESH PATEL', style: AppTextStyles.labelMd(context)),
+                      Text(displayName, style: AppTextStyles.labelMd(context)),
                       Text(
                         '8.5 acres — Taraori, Nilokheri',
                         style: AppTextStyles.bodyMd(context),
