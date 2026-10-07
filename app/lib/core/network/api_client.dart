@@ -7,7 +7,14 @@ import '../config/app_config.dart';
 /// repositories which use this client.
 class ApiClient {
   ApiClient({Dio? dio})
-    : _dio = dio ?? Dio(BaseOptions(baseUrl: AppConfig.apiBaseUrl));
+    : _dio = dio ??
+          Dio(
+            BaseOptions(
+              baseUrl: AppConfig.apiBaseUrl,
+              connectTimeout: const Duration(seconds: 8),
+              receiveTimeout: const Duration(seconds: 15),
+            ),
+          );
 
   final Dio _dio;
 

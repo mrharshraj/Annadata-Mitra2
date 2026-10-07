@@ -1,11 +1,23 @@
+import 'package:annadata_mitra/core/providers/weather_providers.dart';
 import 'package:annadata_mitra/l10n/app_localizations.dart';
 import 'package:annadata_mitra/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> _pumpApp(WidgetTester tester) async {
-  await tester.pumpWidget(const ProviderScope(child: AnnadataMitraApp()));
+  SharedPreferences.setMockInitialValues({});
+  await tester.pumpWidget(
+    ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(
+          await SharedPreferences.getInstance(),
+        ),
+      ],
+      child: const AnnadataMitraApp(),
+    ),
+  );
   await tester.pump(const Duration(milliseconds: 100));
 }
 

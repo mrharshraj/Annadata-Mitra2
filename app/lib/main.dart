@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/config/supabase_config.dart';
 import 'core/providers/locale_provider.dart';
 import 'core/providers/supabase_providers.dart';
+import 'core/providers/weather_providers.dart';
 import 'core/theme/app_theme.dart';
 import 'l10n/app_localizations.dart';
 import 'routing/app_router.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
   // Live backend only when credentials were supplied at build time.
   // UI-shell mode (Phase 1 behaviour) otherwise — no crash, no fake auth.
   if (SupabaseConfig.isConfigured) {
@@ -21,7 +24,12 @@ Future<void> main() async {
       publishableKey: SupabaseConfig.anonKey,
     );
   }
-  runApp(const ProviderScope(child: AnnadataMitraApp()));
+  runApp(
+    ProviderScope(
+      overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+      child: const AnnadataMitraApp(),
+    ),
+  );
 }
 
 class AnnadataMitraApp extends ConsumerWidget {
