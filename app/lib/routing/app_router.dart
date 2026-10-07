@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/config/supabase_config.dart';
+
 import '../features/advisory/presentation/advisory_screen.dart';
 import '../features/ai_assistant/presentation/ai_conversation_screen.dart';
 import '../features/ai_assistant/presentation/ask_ai_screen.dart';
@@ -75,11 +77,31 @@ class ScaffoldWithNav extends StatelessWidget {
   }
 }
 
-/// go_router with auth-guard hook (Phase 5) and deep-linkable locations.
-GoRouter buildRouter() {
+/// Auth-guarded go_router (Phase 2). With a live backend configured,
+/// onboarding + shell routes require a session (redirect to sign-in).
+/// In UI-shell mode (unconfigured) every route stays reachable.
+GoRouter buildRouter({
+  Listenable? refreshListenable,
+  bool Function()? isSignedIn,
+}) {
+  bool signedIn() => isSignedIn?.call() ?? false;
+
+  String? guard(BuildContext context, GoRouterState state) {
+    if (!SupabaseConfig.isConfigured) return null;
+    final loc = state.matchedLocation;
+    const open = [AppRoutes.splash, AppRoutes.welcome, AppRoutes.signIn];
+    if (!signedIn()) {
+      if (open.any((p) => loc == p || loc.startsWith('$p/'))) return null;
+      return AppRoutes.signIn;
+    }
+    if (loc == AppRoutes.signIn) return AppRoutes.home;
+    return null;
+  }
+
   return GoRouter(
     initialLocation: AppRoutes.splash,
-    // TODO(Phase 5): redirect to /sign-in when no Supabase session.
+    refreshListenable: refreshListenable,
+    redirect: guard,
     routes: [
       GoRoute(
         path: AppRoutes.splash,

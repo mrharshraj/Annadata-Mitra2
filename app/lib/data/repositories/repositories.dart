@@ -1,37 +1,54 @@
-// Repository contracts for Phase 2+ (Supabase) and Phase 3+ (FastAPI).
-// Phase 1 ships interfaces only — no fake API/database implementations.
+// Typed repository contracts. Supabase implementations live in
+// supabase_*_repository.dart; widgets depend only on these abstractions.
 
-/// Farmer profile + village association (Phase 5).
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../core/errors/backend_failure.dart';
+import '../models/crop.dart';
+import '../models/farmer_profile.dart';
+import '../models/field.dart';
+import '../models/location.dart';
+import '../models/task.dart';
+
+/// Reference hierarchy State → … → Village (authenticated read-only).
+abstract class LocationRepository {
+  Future<Result<List<StateItem>>> states();
+  Future<Result<List<District>>> districts(String stateId);
+  Future<Result<List<Block>>> blocks(String districtId);
+  Future<Result<List<Panchayat>>> panchayats(String blockId);
+  Future<Result<List<Village>>> villages(String panchayatId);
+}
+
+/// Supabase Auth + own farmer profile.
 abstract class FarmerRepository {
-  Future<void> loadProfile();
+  Session? currentSession();
+  Stream<AuthState> authChanges();
+  Future<Result<void>> requestEmailOtp(String email);
+  Future<Result<void>> verifyEmailOtp({
+    required String email,
+    required String otp,
+  });
+  Future<Result<FarmerProfile?>> profile();
+  Future<Result<FarmerProfile>> upsertProfile(FarmerProfile draft);
+  Future<Result<void>> signOut();
 }
 
-/// Fields + field_crops lifecycle (Phase 6).
+/// Own fields + plantings.
 abstract class FieldRepository {
-  Future<void> listFields();
+  Future<Result<List<Field>>> listFields();
+  Future<Result<Field>> createField(Field draft);
+  Future<Result<List<FieldCrop>>> plantings(String fieldId);
 }
 
-/// Crop catalogue + advice (Phase 6).
+/// Crop catalog + advice (read-only reference).
 abstract class CropRepository {
-  Future<void> listCrops();
+  Future<Result<List<Crop>>> listCrops();
+  Future<Result<List<CropAdvice>>> adviceFor(String cropId);
 }
 
-/// Task CRUD over todo_tasks (Phase 7).
+/// Own tasks.
 abstract class TaskRepository {
-  Future<void> listTasks();
-}
-
-/// Weather via FastAPI → Weather API (Phase 8).
-abstract class WeatherRepository {
-  Future<void> currentWeather();
-}
-
-/// Contextual AI via FastAPI → provider (Phase 9).
-abstract class AiRepository {
-  Future<void> sendMessage();
-}
-
-/// Crop image analysis via FastAPI + Storage (Phase 10).
-abstract class ScannerRepository {
-  Future<void> analyzeScan();
+  Future<Result<List<TodoTask>>> listTasks();
+  Future<Result<TodoTask>> createTask(TodoTask draft);
+  Future<Result<TodoTask>> setCompleted(TodoTask task, bool completed);
 }

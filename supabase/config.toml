@@ -1,0 +1,12 @@
+# Managed locally until a hosted project is linked (Phase 2 needs no live
+# credentials). Apply with the Supabase CLI once configured:
+#
+#   supabase link --project-ref <ref>   # requires access token, Phase 2+
+#   supabase db push                     # applies supabase/migrations/*.sql
+#   psql <seed> or supabase db seed      # applies supabase/seed.sql
+#
+# RLS + storage policies ship in migrations 0002/0003 and are verified by
+# review in Phase 2 (no live project yet). Never commit service-role keys.
+
+[project]
+name = "annadata-mitra"

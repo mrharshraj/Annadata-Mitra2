@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/config/supabase_config.dart';
 import '../../../core/providers/locale_provider.dart';
+import '../../../core/providers/supabase_providers.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_text_styles.dart';
@@ -78,8 +80,11 @@ class ProfileScreen extends ConsumerWidget {
           AmSecondaryButton(
             label: l.profileLogout,
             icon: Icons.logout,
-            // TODO(Phase 5): Supabase sign-out + clear session.
-            onPressed: () {},
+            // Real Supabase sign-out when configured; the router guard
+            // returns to sign-in. No-op in UI-shell mode (no session).
+            onPressed: SupabaseConfig.isConfigured
+                ? () => ref.read(farmerRepositoryProvider).signOut()
+                : null,
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(l.phase1Note, style: AppTextStyles.bodyMd(context)),
