@@ -25,3 +25,9 @@ android/local.properties
 credentials.txt
 *.key
 *.pem
+
+# Python backend
+backend/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/

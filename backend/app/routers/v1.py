@@ -1,0 +1,9 @@
+"""Versioned API router. Feature routers (auth/location/farmers/fields/
+crops/tasks/weather/advisories/ai/scanner) mount here in later phases."""
+
+from fastapi import APIRouter
+
+from .health import router as health_router
+
+v1 = APIRouter(prefix="/api/v1")
+v1.include_router(health_router)
