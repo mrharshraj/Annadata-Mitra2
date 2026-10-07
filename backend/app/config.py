@@ -25,6 +25,9 @@ class Settings(BaseSettings):
     )
     supabase_jwt_secret: str = Field(default="", alias="SUPABASE_JWT_SECRET")
 
+    # Later-phase provider keys (empty = provider disabled, honest 503).
+    gemini_api_key: str = Field(default="", alias="GEMINI_API_KEY")
+
     api_host: str = Field(default="0.0.0.0", alias="API_HOST")
     api_port: int = Field(default=8000, alias="API_PORT")
     cors_origins: str = Field(
