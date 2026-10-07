@@ -11,18 +11,76 @@ import '../../../core/widgets/am_buttons.dart';
 import '../../../core/widgets/am_cards.dart';
 import '../../../core/widgets/am_scaffold.dart';
 import '../../../core/widgets/backend_state_view.dart';
-import '../../../data/models/location.dart';
+import '../../../data/models/profile.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../routing/app_routes.dart';
+import 'location_selection.dart';
 
 /// 04 — Onboarding step 1/3: farm location.
-/// With a live backend, states stream from Supabase (seeded in Phase 2);
-/// in UI-shell mode the prototype static card is shown.
-class LocationSetupScreen extends ConsumerWidget {
+/// Live backend: cascading State → District → Block → Panchayat → Village
+/// from Supabase; continuing saves the village onto the farmer profile.
+/// UI-shell mode: the prototype static card is shown.
+class LocationSetupScreen extends ConsumerStatefulWidget {
   const LocationSetupScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LocationSetupScreen> createState() =>
+      _LocationSetupScreenState();
+}
+
+class _LocationSetupScreenState extends ConsumerState<LocationSetupScreen> {
+  bool _started = false;
+  bool _saving = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_started && SupabaseConfig.isConfigured) {
+      _started = true;
+      Future.microtask(
+        () => ref.read(locationSelectionProvider.notifier).loadStates(),
+      );
+    }
+  }
+
+  Future<void> _continue() async {
+    final sel = ref.read(locationSelectionProvider);
+    final villageId = sel.selectedVillageId;
+    if (SupabaseConfig.isConfigured &&
+        villageId != null &&
+        ref.read(sessionProvider) != null) {
+      setState(() => _saving = true);
+      final repo = ref.read(farmerRepositoryProvider);
+      final existing = await repo.profile();
+      final base = switch (existing) {
+        Ok(:final value) =>
+          value ??
+              Profile(
+                id: ref.read(sessionProvider)!.user.id,
+                fullName: '',
+              ),
+        Err() => Profile(
+          id: ref.read(sessionProvider)!.user.id,
+          fullName: '',
+        ),
+      };
+      await repo.upsertProfile(
+        base.copyWith(
+          villageId: villageId,
+          stateId: sel.stateId,
+          districtId: sel.districtId,
+          blockId: sel.blockId,
+          panchayatId: sel.panchayatId,
+        ),
+      );
+      if (!mounted) return;
+      setState(() => _saving = false);
+    }
+    if (mounted) context.go(AppRoutes.farmProfile);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     return AmScaffold(
       title: l.locationTitle.toUpperCase(),
@@ -47,76 +105,105 @@ class LocationSetupScreen extends ConsumerWidget {
               ),
             )
           else
-            _LiveStates(ref: ref),
+            const _CascadeForm(),
           const SizedBox(height: AppSpacing.md),
-          AmPrimaryButton(
-            label: l.locationNext,
-            icon: Icons.arrow_forward,
-            // TODO(Phase 4): persist State→District→Block→Panchayat→Village.
-            onPressed: () => context.go(AppRoutes.farmProfile),
-          ),
+          if (_saving)
+            const Center(child: CircularProgressIndicator())
+          else
+            AmPrimaryButton(
+              label: l.locationNext,
+              icon: Icons.arrow_forward,
+              onPressed: _continue,
+            ),
         ],
       ),
     );
   }
 }
 
-class _LiveStates extends StatefulWidget {
-  const _LiveStates({required this.ref});
-
-  final WidgetRef ref;
+class _CascadeForm extends ConsumerWidget {
+  const _CascadeForm();
 
   @override
-  State<_LiveStates> createState() => _LiveStatesState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sel = ref.watch(locationSelectionProvider);
+    final notifier = ref.read(locationSelectionProvider.notifier);
+    if (sel.failure != null) {
+      return BackendStateView.failure(
+        failure: sel.failure!,
+        onRetry: notifier.loadStates,
+      );
+    }
+    return AmCard(
+      child: Column(
+        children: [
+          _Level(
+            label: 'STATE',
+            value: sel.stateId,
+            items: {for (final s in sel.states) s.id: s.name},
+            onChanged: notifier.selectState,
+          ),
+          _Level(
+            label: 'DISTRICT',
+            value: sel.districtId,
+            items: {for (final d in sel.districts) d.id: d.name},
+            onChanged: notifier.selectDistrict,
+          ),
+          _Level(
+            label: 'BLOCK',
+            value: sel.blockId,
+            items: {for (final b in sel.blocks) b.id: b.name},
+            onChanged: notifier.selectBlock,
+          ),
+          _Level(
+            label: 'PANCHAYAT',
+            value: sel.panchayatId,
+            items: {for (final p in sel.panchayats) p.id: p.name},
+            onChanged: notifier.selectPanchayat,
+          ),
+          _Level(
+            label: 'VILLAGE',
+            value: sel.villageId,
+            items: {for (final v in sel.villages) v.id: v.name},
+            onChanged: notifier.selectVillage,
+          ),
+          if (sel.loading)
+            const Padding(
+              padding: EdgeInsets.only(top: AppSpacing.sm),
+              child: LinearProgressIndicator(),
+            ),
+        ],
+      ),
+    );
+  }
 }
 
-class _LiveStatesState extends State<_LiveStates> {
-  late Future<Result<List<StateItem>>> _future;
+class _Level extends StatelessWidget {
+  const _Level({
+    required this.label,
+    required this.value,
+    required this.items,
+    required this.onChanged,
+  });
 
-  @override
-  void initState() {
-    super.initState();
-    _future = widget.ref.read(locationRepositoryProvider).states();
-  }
+  final String label;
+  final String? value;
+  final Map<String, String> items;
+  final ValueChanged<String?> onChanged;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Result<List<StateItem>>>(
-      future: _future,
-      builder: (context, snap) {
-        if (!snap.hasData) return const BackendStateView.loading();
-        return switch (snap.data!) {
-          Ok(:final value) when value.isEmpty => const BackendStateView.empty(
-            message: 'No states seeded yet.',
-          ),
-          Ok(:final value) => AmCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'SELECT STATE (${value.length} AVAILABLE)',
-                  style: AppTextStyles.labelMd(context),
-                ),
-                for (final s in value.take(12))
-                  ListTile(
-                    dense: true,
-                    leading: const Icon(Icons.map),
-                    title: Text(s.name.toUpperCase()),
-                    trailing: const Icon(Icons.chevron_right),
-                    // TODO(Phase 4): drill District → Block → Panchayat → Village.
-                    onTap: () {},
-                  ),
-              ],
-            ),
-          ),
-          Err(:final failure) => BackendStateView.failure(
-            failure: failure,
-            onRetry: () => setState(() {
-              _future = widget.ref.read(locationRepositoryProvider).states();
-            }),
-          ),
-        };
-      },
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+      child: DropdownButtonFormField<String>(
+        initialValue: value,
+        decoration: InputDecoration(labelText: label),
+        items: [
+          for (final e in items.entries)
+            DropdownMenuItem(value: e.key, child: Text(e.value)),
+        ],
+        onChanged: items.isEmpty ? null : onChanged,
+      ),
     );
   }
 }
