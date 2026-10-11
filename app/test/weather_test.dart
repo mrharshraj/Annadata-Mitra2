@@ -4,26 +4,24 @@ import 'package:annadata_mitra/data/repositories/weather_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Raw Open-Meteo payload shape (direct provider integration).
 Map<String, dynamic> _payload() => {
   'current': {
-    'temperature_c': 24.0,
-    'humidity_pct': 62.0,
-    'wind_kmh': 11.0,
-    'rain_prob_pct': 80.0,
-    'summary': 'Light rain',
+    'temperature_2m': 24.0,
+    'relative_humidity_2m': 90.0,
+    'weather_code': 61,
+    'wind_speed_10m': 35.0,
   },
-  'daily': [
-    {
-      'date': '2026-10-07',
-      'max_c': 27.0,
-      'min_c': 14.0,
-      'rain_mm': 2.0,
-      'rain_prob_pct': 40.0,
-    },
-  ],
-  'advisories': [
-    {'kind': 'rain', 'severity': 'watch', 'title': 'T', 'text': 'X'},
-  ],
+  'hourly': {
+    'precipitation_probability': [80],
+  },
+  'daily': {
+    'time': ['2026-10-07', '2026-10-08'],
+    'temperature_2m_max': [27.0, 26.0],
+    'temperature_2m_min': [14.0, 15.0],
+    'precipitation_sum': [2.0, 18.0],
+    'precipitation_probability_max': [40, 78],
+  },
 };
 
 void main() {
@@ -32,7 +30,7 @@ void main() {
   test('live fetch parses + caches', () async {
     SharedPreferences.setMockInitialValues({});
     final prefs = await SharedPreferences.getInstance();
-    final repo = FastApiWeatherRepository(
+    final repo = OpenMeteoWeatherRepository(
       fetcher: ({required lat, required lon}) async => _payload(),
       prefs: prefs,
     );
@@ -48,7 +46,7 @@ void main() {
   test('network failure without cache is a typed error', () async {
     SharedPreferences.setMockInitialValues({});
     final prefs = await SharedPreferences.getInstance();
-    final repo = FastApiWeatherRepository(
+    final repo = OpenMeteoWeatherRepository(
       fetcher: ({required lat, required lon}) => throw Exception('down'),
       prefs: prefs,
     );
@@ -64,13 +62,13 @@ void main() {
     final now = DateTime(2026, 10, 7, 8);
     SharedPreferences.setMockInitialValues({});
     final prefs = await SharedPreferences.getInstance();
-    final live = FastApiWeatherRepository(
+    final live = OpenMeteoWeatherRepository(
       fetcher: ({required lat, required lon}) async => _payload(),
       prefs: prefs,
       clock: () => now,
     );
     await live.forecast(lat: 1.0, lon: 2.0);
-    final offline = FastApiWeatherRepository(
+    final offline = OpenMeteoWeatherRepository(
       fetcher: ({required lat, required lon}) => throw Exception('down'),
       prefs: prefs,
       clock: () => now.add(const Duration(hours: 2)),
@@ -83,18 +81,47 @@ void main() {
     final now = DateTime(2026, 10, 7, 8);
     SharedPreferences.setMockInitialValues({});
     final prefs = await SharedPreferences.getInstance();
-    final live = FastApiWeatherRepository(
+    final live = OpenMeteoWeatherRepository(
       fetcher: ({required lat, required lon}) async => _payload(),
       prefs: prefs,
       clock: () => now,
     );
     await live.forecast(lat: 1.0, lon: 2.0);
-    final offline = FastApiWeatherRepository(
+    final offline = OpenMeteoWeatherRepository(
       fetcher: ({required lat, required lon}) => throw Exception('down'),
       prefs: prefs,
       clock: () => now.add(const Duration(hours: 7)),
     );
     final res = await offline.forecast(lat: 1.0, lon: 2.0);
     expect(res, isA<Err<Forecast>>());
+  });
+
+  test('fromOpenMeteo normalizes + fires rules', () {
+    final fc = Forecast.fromOpenMeteo(_payload());
+    expect(fc.current.summary, 'Light rain');
+    expect(fc.daily.length, 2);
+    expect(
+      fc.advisories.map((a) => a.kind),
+      containsAll(['rain', 'wind', 'humidity']),
+    );
+  });
+
+  test('fromOpenMeteo tolerates missing keys', () {
+    final fc = Forecast.fromOpenMeteo({});
+    expect(fc.current.temperatureC, 0);
+    expect(fc.daily, isEmpty);
+    // 0°C default trips the cold rule — same as the backend rules.
+    expect(fc.advisories.map((a) => a.kind), ['cold']);
+  });
+
+  test('calm day yields info-only advisory', () {
+    final fc = Forecast.fromOpenMeteo({
+      'current': {'temperature_2m': 24, 'weather_code': 0},
+      'daily': {
+        'time': ['2026-10-07'],
+        'precipitation_sum': [0.0],
+      },
+    });
+    expect(fc.advisories.map((a) => a.kind), ['irrigation']);
   });
 }

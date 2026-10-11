@@ -1,4 +1,9 @@
-# Backend — FastAPI (Phase 3 foundation)
+# Backend — FastAPI (superseded for production)
+
+> Canonical production backend: Supabase Edge Functions
+> (`supabase/functions/`, see `supabase/EDGE_FUNCTIONS.md`). This FastAPI
+> tree is retained as a local development reference and for its test
+> suite; it is NOT required to run the app and is NOT deployed.
 
 ```text
 backend/

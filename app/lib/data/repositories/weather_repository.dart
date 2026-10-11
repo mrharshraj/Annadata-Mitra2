@@ -6,7 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/errors/backend_failure.dart';
 import '../models/weather.dart';
 
-/// Fetch function injected for testability (production: Dio GET).
+/// Fetch function injected for testability (production: direct Open-Meteo
+/// HTTPS GET — keyless, no backend hop). Returns the RAW provider payload;
+/// normalization + advisory rules run in [Forecast.fromOpenMeteo].
 typedef WeatherFetcher =
     Future<Map<String, dynamic>> Function({
       required double lat,
@@ -24,8 +26,8 @@ abstract class WeatherRepository {
 /// FastAPI-backed forecasts. Strategy: try network, persist to cache;
 /// on failure serve cache younger than [ttl], else a typed network error.
 /// Nothing here fabricates weather — stale payloads are flagged.
-class FastApiWeatherRepository implements WeatherRepository {
-  FastApiWeatherRepository({
+class OpenMeteoWeatherRepository implements WeatherRepository {
+  OpenMeteoWeatherRepository({
     required this.fetcher,
     required this.prefs,
     this.ttl = const Duration(hours: 6),
@@ -46,10 +48,10 @@ class FastApiWeatherRepository implements WeatherRepository {
     required double lon,
   }) async {
     try {
-      final json = await fetcher(lat: lat, lon: lon).timeout(
+      final raw = await fetcher(lat: lat, lon: lon).timeout(
         const Duration(seconds: 10),
       );
-      final live = Forecast.fromJson(json);
+      final live = Forecast.fromOpenMeteo(raw);
       await prefs.setString(
         _key(lat, lon),
         jsonEncode({

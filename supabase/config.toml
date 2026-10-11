@@ -10,3 +10,22 @@
 
 [project]
 name = "annadata-mitra"
+
+# Edge Functions (server-side secrets live in function env, set via
+# `supabase secrets set` or the dashboard — never in this repo):
+#   ai-chat:         GEMINI_API_KEY (+ SUPABASE_URL/ANON_KEY/SERVICE_ROLE_KEY)
+#   scan-crop:       GEMINI_API_KEY (+ SUPABASE_URL/ANON_KEY/SERVICE_ROLE_KEY)
+#   admin-overview:  ADMIN_EMAILS (+ SUPABASE_URL/ANON_KEY/SERVICE_ROLE_KEY)
+# Deploy: supabase functions deploy ai-chat scan-crop admin-overview
+# (needs a CLI access token). JWT verification stays enabled.
+[functions.ai-chat]
+enabled = true
+verify_jwt = true
+
+[functions.scan-crop]
+enabled = true
+verify_jwt = true
+
+[functions.admin-overview]
+enabled = true
+verify_jwt = true
