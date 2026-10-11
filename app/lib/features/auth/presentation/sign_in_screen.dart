@@ -108,6 +108,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
             const BackendStateView.failure(
               failure: BackendFailure.notConfigured(),
             ),
+            TextButton(
+              onPressed: () => context.go(AppRoutes.privacy),
+              child: Text(l.privacyTitle.toUpperCase()),
+            ),
             Text(l.phase1Note, style: AppTextStyles.bodyMd(context)),
           ],
         ),
@@ -186,6 +190,12 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
             const SizedBox(height: AppSpacing.sm),
             BackendStateView.failure(failure: _error!),
           ],
+          TextButton(
+            onPressed: () => context.go(AppRoutes.privacy),
+            child: Text(
+              AppLocalizations.of(context).privacyTitle.toUpperCase(),
+            ),
+          ),
           const SizedBox(height: AppSpacing.md),
           if (_busy)
             const Center(child: CircularProgressIndicator())

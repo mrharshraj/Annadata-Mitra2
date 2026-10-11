@@ -99,6 +99,21 @@ class SupabaseFarmerRepository implements FarmerRepository {
   }
 
   @override
+  Future<Result<void>> deleteOwnProfile() async {
+    if (backendMissing) return const Err(BackendFailure.notConfigured());
+    final uid = _db.auth.currentUser?.id;
+    if (uid == null) return const Err(BackendFailure.authRequired());
+    // RLS delete-own policy + FK cascades remove fields, crops, tasks,
+    // scans and AI history. Auth account removal is server-side.
+    return switch (await guard(
+      () => _db.from('profiles').delete().eq('id', uid),
+    )) {
+      Ok() => const Ok(null),
+      Err(:final failure) => Err<void>(failure),
+    };
+  }
+
+  @override
   Future<Result<void>> signOut() async {
     if (backendMissing) return const Err(BackendFailure.notConfigured());
     return switch (await guard(() => _db.auth.signOut())) {

@@ -117,7 +117,15 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                                     'Due ${t.dueDate!.toLocal().toString().substring(0, 10)} • ${t.priority}',
                                   ),
                             trailing: const Icon(Icons.chevron_right),
-                            onTap: () => context.go(AppRoutes.taskDetails),
+                            onTap: () async {
+                              final changed = await context.push<bool>(
+                                AppRoutes.taskDetails,
+                                extra: t,
+                              );
+                              if (changed == true && context.mounted) {
+                                _refresh();
+                              }
+                            },
                           ),
                         ),
                       const SizedBox(height: AppSpacing.sm),

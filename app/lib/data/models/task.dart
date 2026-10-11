@@ -56,15 +56,21 @@ class FarmTask {
     'completed_at': completedAt?.toIso8601String(),
   };
 
-  FarmTask copyWith({String? title, String? status}) => FarmTask(
+  FarmTask copyWith({
+    String? title,
+    String? Function()? description,
+    DateTime? Function()? dueDate,
+    String? priority,
+    String? status,
+  }) => FarmTask(
     id: id,
     profileId: profileId,
     fieldId: fieldId,
     cropId: cropId,
     title: title ?? this.title,
-    description: description,
-    dueDate: dueDate,
-    priority: priority,
+    description: description == null ? this.description : description(),
+    dueDate: dueDate == null ? this.dueDate : dueDate(),
+    priority: priority ?? this.priority,
     status: status ?? this.status,
     completedAt: completedAt,
   );

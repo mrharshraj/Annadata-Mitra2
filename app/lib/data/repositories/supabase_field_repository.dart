@@ -54,6 +54,20 @@ class SupabaseFieldRepository implements FieldRepository {
   }
 
   @override
+  Future<Result<FieldCrop>> createPlanting(FieldCrop draft) async {
+    if (backendMissing) return const Err(BackendFailure.notConfigured());
+    if (_uid == null) return const Err(BackendFailure.authRequired());
+    return guard(() async {
+      final row = await _db
+          .from('field_crops')
+          .insert(draft.toJson())
+          .select()
+          .single();
+      return FieldCrop.fromJson((row as Map).cast<String, dynamic>());
+    });
+  }
+
+  @override
   Future<Result<List<FieldCrop>>> plantings(String fieldId) async {
     if (backendMissing) return const Err(BackendFailure.notConfigured());
     if (_uid == null) return const Err(BackendFailure.authRequired());

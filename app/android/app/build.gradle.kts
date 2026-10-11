@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
@@ -12,6 +15,27 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    // Release signing from android/key.properties (local file, never
+    // committed). Falls back to debug keys when the file is absent.
+    val keystoreProps = Properties()
+    val keystoreFile = rootProject.file("key.properties")
+    if (keystoreFile.exists()) {
+        keystoreProps.load(FileInputStream(keystoreFile))
+    }
+
+    signingConfigs {
+        create("upload") {
+            if (keystoreFile.exists()) {
+                keyAlias = keystoreProps["keyAlias"] as String
+                keyPassword = keystoreProps["keyPassword"] as String
+                // Resolve against the android/ root (key.properties lives
+                // there, not in the app/ module directory).
+                storeFile = rootProject.file(keystoreProps["storeFile"] as String)
+                storePassword = keystoreProps["storePassword"] as String
+            }
+        }
     }
 
     defaultConfig {
@@ -31,9 +55,18 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // Upload-key signing when android/key.properties exists,
+            // otherwise debug keys (local development only).
+            signingConfig = if (keystoreFile.exists()) {
+                signingConfigs.getByName("upload")
+            } else {
+                signingConfigs.getByName("debug")
+            }
+            // NDK 28's symbol stripper fails on this Windows toolchain;
+            // skip native symbol extraction (Play symbolication optional).
+            ndk {
+                debugSymbolLevel = "NONE"
+            }
         }
     }
 }

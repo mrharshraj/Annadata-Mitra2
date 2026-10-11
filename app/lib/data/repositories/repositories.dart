@@ -38,6 +38,7 @@ abstract class FarmerRepository {
   });
   Future<Result<Profile?>> profile();
   Future<Result<Profile>> upsertProfile(Profile draft);
+  Future<Result<void>> deleteOwnProfile();
   Future<Result<void>> signOut();
 }
 
@@ -47,6 +48,7 @@ abstract class FieldRepository {
   Future<Result<Field>> createField(Field draft);
   Future<Result<void>> deleteField(String fieldId);
   Future<Result<List<FieldCrop>>> plantings(String fieldId);
+  Future<Result<FieldCrop>> createPlanting(FieldCrop draft);
 }
 
 /// Crop catalog + advice (read-only reference).
@@ -60,4 +62,5 @@ abstract class TaskRepository {
   Future<Result<List<FarmTask>>> listTasks();
   Future<Result<FarmTask>> createTask(FarmTask draft);
   Future<Result<FarmTask>> setStatus(FarmTask task, String status);
+  Future<Result<FarmTask>> updateTask(FarmTask task);
 }

@@ -138,6 +138,10 @@ class AppLocalizations {
   String get actionSave => _t('actionSave');
   String get actionRetry => _t('actionRetry');
   String get phase1Note => _t('phase1Note');
+  String get privacyTitle => _t('privacyTitle');
+  String get privacyDelete => _t('privacyDelete');
+  String get privacyDeleteTitle => _t('privacyDeleteTitle');
+  String get privacyDeleteBody => _t('privacyDeleteBody');
 
   static const Map<String, Map<String, String>> _values = {
     'appName': {'en': 'ANNADATA MITRA', 'hi': 'अन्नदाता मित्र'},
@@ -273,6 +277,18 @@ class AppLocalizations {
     'phase1Note': {
       'en': 'Phase 1 UI shell — real data connects in later phases.',
       'hi': 'चरण 1 यूआई खोल — वास्तविक डेटा बाद के चरणों में जुड़ेगा।',
+    },
+    'privacyTitle': {'en': 'Privacy Policy', 'hi': 'गोपनीयता नीति'},
+    'privacyDelete': {'en': 'DELETE MY DATA', 'hi': 'मेरा डेटा हटाएं'},
+    'privacyDeleteTitle': {
+      'en': 'Delete all my farm data?',
+      'hi': 'मेरा सारा खेत डेटा हटाएं?',
+    },
+    'privacyDeleteBody': {
+      'en':
+          'Your profile, fields, crops, tasks, scans and AI history will be permanently deleted, then you will be signed out.',
+      'hi':
+          'आपकी प्रोफ़ाइल, खेत, फसलें, कार्य, स्कैन और एआई इतिहास स्थायी रूप से हटा दिया जाएगा, फिर आपको साइन आउट किया जाएगा।',
     },
   };
 }

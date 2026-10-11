@@ -17,9 +17,11 @@ import '../features/farmer/presentation/profile_screen.dart';
 import '../features/fields/presentation/fields_screen.dart';
 import '../features/location/presentation/location_setup_screen.dart';
 import '../features/onboarding/presentation/welcome_screen.dart';
+import '../features/profile/presentation/privacy_screen.dart';
 import '../features/splash/presentation/splash_screen.dart';
 import '../features/tasks/presentation/activity_timeline_screen.dart';
 import '../features/tasks/presentation/task_details_screen.dart';
+import '../data/models/task.dart';
 import '../features/tasks/presentation/tasks_screen.dart';
 import '../features/weather/presentation/forecast_screen.dart';
 import '../features/weather/presentation/weather_overview_screen.dart';
@@ -89,7 +91,12 @@ GoRouter buildRouter({
   String? guard(BuildContext context, GoRouterState state) {
     if (!SupabaseConfig.isConfigured) return null;
     final loc = state.matchedLocation;
-    const open = [AppRoutes.splash, AppRoutes.welcome, AppRoutes.signIn];
+    const open = [
+      AppRoutes.splash,
+      AppRoutes.welcome,
+      AppRoutes.signIn,
+      AppRoutes.privacy,
+    ];
     if (!signedIn()) {
       if (open.any((p) => loc == p || loc.startsWith('$p/'))) return null;
       return AppRoutes.signIn;
@@ -114,6 +121,10 @@ GoRouter buildRouter({
       GoRoute(
         path: AppRoutes.signIn,
         builder: (_, _) => const SignInScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.privacy,
+        builder: (_, _) => const PrivacyScreen(),
       ),
       GoRoute(
         path: AppRoutes.locationSetup,
@@ -194,7 +205,11 @@ GoRouter buildRouter({
                 routes: [
                   GoRoute(
                     path: 'details',
-                    builder: (_, _) => const TaskDetailsScreen(),
+                    builder: (_, state) => TaskDetailsScreen(
+                      task: state.extra is FarmTask
+                          ? state.extra as FarmTask
+                          : null,
+                    ),
                   ),
                   GoRoute(
                     path: 'timeline',

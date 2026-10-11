@@ -23,8 +23,11 @@ android/local.properties
 
 # Secrets - never commit real credentials
 credentials.txt
+render-env.txt
 *.key
 *.pem
+*.jks
+key.properties
 
 # Python backend
 backend/.venv/

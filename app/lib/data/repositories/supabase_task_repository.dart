@@ -58,4 +58,25 @@ class SupabaseTaskRepository implements TaskRepository {
       return FarmTask.fromJson((row as Map).cast<String, dynamic>());
     });
   }
+
+  @override
+  Future<Result<FarmTask>> updateTask(FarmTask task) async {
+    if (backendMissing) return const Err(BackendFailure.notConfigured());
+    if (_uid == null) return const Err(BackendFailure.authRequired());
+    return guard(() async {
+      final row = await _db
+          .from('tasks')
+          .update({
+            'title': task.title,
+            'description': task.description,
+            'due_date': task.dueDate?.toIso8601String(),
+            'priority': task.priority,
+            'status': task.status,
+          })
+          .eq('id', task.id)
+          .select()
+          .single();
+      return FarmTask.fromJson((row as Map).cast<String, dynamic>());
+    });
+  }
 }

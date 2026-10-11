@@ -48,3 +48,29 @@ Date: 2026-10-07. Scope: entire repo at commit `791105f` + Phase 12 changes
 - Live RLS/policy effectiveness awaits dashboard migration + E2E check.
 - Release APK currently signs with debug keys (Phase 14 notes store
   signing setup). No PII beyond farmer-provided profile data.
+
+## Audit round 2 (2026-10-11, publication readiness)
+
+Static + dependency review of all 62 Dart files, 30 Python files,
+manifest, Gradle config, migrations and policies:
+
+- Secrets: repo-wide scan clean (only sanctioned ignored files hold
+  credentials; APK binary audited — public URL baked, zero key-like
+  runs, service_role hits are package doc-comments).
+- Manifest: single exported MainActivity (launcher only), no deep links,
+  no intent filters beyond MAIN/LAUNCHER; permissions INTERNET/CAMERA/
+  LOCATION all justified by features.
+- AuthZ enforced server-side (RLS per-op policies + backend ownership
+  checks); UI guards are UX only. Anon reads return [], anon writes 401.
+- Input validation: Pydantic bounds everywhere (message 1–2000, image
+  MIME/size, title lengths, CHECK constraints in SQL).
+- Errors sanitized (no tracebacks client-side); request IDs for tracing
+  without PII.
+- FIXED (Medium): no backend rate limiting → added sliding-window 429
+  middleware on /ai/* (20/min) and /scanner/* (10/min) + regression tests.
+- FIXED (High): release signed with debug keys → local upload keystore
+  + key.properties (both ignored) wired with debug fallback.
+- Privacy: policy doc + in-app screen + delete-my-data (cascade) flow.
+- Noted, not fixable here: backend has no public HTTPS deploy (needs
+  hosting account); on-device E2E needs a phone; Play data-safety form
+  and store listing are manual Console steps.

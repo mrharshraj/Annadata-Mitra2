@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .config import get_settings
 from .errors import register_error_handlers
 from .logging_conf import RequestIdMiddleware, configure_logging
+from .middleware.rate_limit import RateLimitMiddleware
 from .routers.health import router as root_health_router
 from .routers.v1 import v1
 
@@ -15,6 +16,7 @@ def create_app() -> FastAPI:
     configure_logging(settings.log_level)
 
     app = FastAPI(title=settings.app_name, version=settings.app_version)
+    app.add_middleware(RateLimitMiddleware)
     app.add_middleware(RequestIdMiddleware)
     app.add_middleware(
         CORSMiddleware,

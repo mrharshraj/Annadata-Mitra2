@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/config/supabase_config.dart';
+import '../../../core/errors/backend_failure.dart';
 import '../../../core/providers/locale_provider.dart';
 import '../../../core/providers/supabase_providers.dart';
+import '../../../routing/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_text_styles.dart';
@@ -15,6 +18,43 @@ import '../../../l10n/app_localizations.dart';
 /// 20 — Identity + system hub, including the EN/HI toggle.
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
+
+  Future<void> _confirmDelete(BuildContext context, WidgetRef ref) async {
+    final l = AppLocalizations.of(context);
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (c) => AlertDialog(
+        title: Text(l.privacyDeleteTitle),
+        content: Text(l.privacyDeleteBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(c, false),
+            child: Text(l.actionBack),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(c, true),
+            child: Text(
+              l.privacyDelete,
+              style: const TextStyle(color: AppColors.error),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (ok != true || !context.mounted) return;
+    final repo = ref.read(farmerRepositoryProvider);
+    final deleted = await repo.deleteOwnProfile();
+    if (!context.mounted) return;
+    switch (deleted) {
+      case Ok():
+        await repo.signOut();
+        if (context.mounted) context.go(AppRoutes.signIn);
+      case Err(:final failure):
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(failure.message)));
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -96,6 +136,25 @@ class ProfileScreen extends ConsumerWidget {
                 ? () => ref.read(farmerRepositoryProvider).signOut()
                 : null,
           ),
+          const SizedBox(height: AppSpacing.sm),
+          AmSecondaryButton(
+            label: l.privacyTitle.toUpperCase(),
+            icon: Icons.privacy_tip_outlined,
+            onPressed: () => context.go(AppRoutes.privacy),
+          ),
+          if (SupabaseConfig.isConfigured) ...[
+            const SizedBox(height: AppSpacing.sm),
+            OutlinedButton.icon(
+              onPressed: () => _confirmDelete(context, ref),
+              icon: const Icon(Icons.delete_forever, color: AppColors.error),
+              label: Text(
+                l.privacyDelete,
+                style: AppTextStyles.labelMd(
+                  context,
+                ).copyWith(color: AppColors.error),
+              ),
+            ),
+          ],
           const SizedBox(height: AppSpacing.sm),
           Text(l.phase1Note, style: AppTextStyles.bodyMd(context)),
         ],

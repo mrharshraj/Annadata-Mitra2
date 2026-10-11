@@ -4,6 +4,7 @@ abstract final class AppRoutes {
   static const String splash = '/splash';
   static const String welcome = '/welcome';
   static const String signIn = '/sign-in';
+  static const String privacy = '/privacy';
   static const String locationSetup = '/location-setup';
   static const String farmProfile = '/farm-profile';
   static const String addCrop = '/add-crop';
