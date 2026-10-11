@@ -7,8 +7,16 @@ co-located with the database, no Render/hosting account needed):
 | Function | Replaces (FastAPI) | Secrets (function env only) |
 |---|---|---|
 | `ai-chat` | `POST /api/v1/ai/chat` | `GEMINI_API_KEY` |
-| `scan-crop` | `POST /api/v1/scanner/analyze` | `GEMINI_API_KEY` |
+| `scan-crop` | `POST /api/v1/scanner/analyze` (fallback; primary is direct in-app vision when an Android-restricted key is provisioned — see below) | `GEMINI_API_KEY` |
 | `admin-overview` | `GET /api/v1/admin/overview` | `ADMIN_EMAILS` |
+
+Direct scanner vision (no function hop): the app sends captured JPEG
+bytes straight to Gemini (`inline_data` base64) when built with
+`--dart-define=GEMINI_ANDROID_KEY=...`, then persists the outcome with an
+owner-scoped `crop_scans` insert. The key MUST be Android-restricted
+(package + SHA-1) in Google AI Studio; without it the app keeps using
+`scan-crop`. Verified live against a wheat photo (crop identified,
+confidence 0.92).
 
 Common env for all three: `SUPABASE_URL`, `SUPABASE_ANON_KEY`,
 `SUPABASE_SERVICE_ROLE_KEY`. Set via dashboard or CLI (values never in repo):

@@ -7,7 +7,7 @@
 | `GET /health`, `GET /api/v1/health` | liveness | Dropped (client needs none; Supabase/Open-Meteo reached directly) |
 | `GET /api/v1/weather/current+forecast` | normalized weather + rules | Direct Open-Meteo HTTPS in app + Dart `Forecast.fromOpenMeteo` + `buildAgriAdvisories` (identical thresholds) |
 | `POST /api/v1/ai/chat` | Gemini chat + persistence | Edge Function `ai-chat` (JWT check, ownership, Gemini, persist) |
-| `POST /api/v1/scanner/analyze` | vision + persistence | Edge Function `scan-crop` (prefix/field checks, vision, persist) |
+| `POST /api/v1/scanner/analyze` | vision + persistence | Direct Gemini in app (primary when an Android-restricted key is provisioned) with `scan-crop` Edge Function as fallback |
 | `GET /api/v1/admin/overview` | aggregates | Edge Function `admin-overview` (session + allowlist) |
 
 ## Removed (Flutter)
