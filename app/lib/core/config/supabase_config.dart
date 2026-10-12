@@ -15,6 +15,14 @@ abstract final class SupabaseConfig {
     'SUPABASE_ANON_KEY',
     defaultValue: '',
   );
+  static const String googleWebClientId = String.fromEnvironment(
+    'GOOGLE_WEB_CLIENT_ID',
+    defaultValue: '',
+  );
+  static const String googleAndroidClientId = String.fromEnvironment(
+    'GOOGLE_ANDROID_CLIENT_ID',
+    defaultValue: '',
+  );
 
   /// True when both public values were supplied at build/run time.
   /// The app boots into UI-shell mode when false (Phase 1 behaviour);
@@ -26,6 +34,8 @@ abstract final class SupabaseConfig {
   static bool _looksLikeUrl(String value) =>
       value.startsWith('http://') || value.startsWith('https://');
 
+  static bool get isGoogleConfigured => googleWebClientId.isNotEmpty;
+
   /// Throws a descriptive [StateError] naming the missing define.
   static void requireConfigured() {
     if (isConfigured) return;
@@ -33,6 +43,7 @@ abstract final class SupabaseConfig {
       'Supabase is not configured. Re-run with '
       '--dart-define=SUPABASE_URL=<https-url> '
       '--dart-define=SUPABASE_ANON_KEY=<anon-key>. '
+      '--dart-define=GOOGLE_WEB_CLIENT_ID=<web-oauth-client-id>. '
       'See app/docs/PHASE2_REPORT.md for setup.',
     );
   }

@@ -19,10 +19,11 @@ abstract class LocationRepository {
   Future<Result<List<Village>>> villages(String panchayatId);
 }
 
-/// Supabase Auth (email/password + email OTP) + own profile row.
+/// Supabase Auth + own profile row.
 abstract class FarmerRepository {
   Session? currentSession();
   Stream<AuthState> authChanges();
+  Future<Result<void>> signInWithGoogle();
   Future<Result<void>> signUpWithPassword({
     required String email,
     required String password,
